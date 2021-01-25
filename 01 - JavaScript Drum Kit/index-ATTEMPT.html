@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <title>JS Drum Kit</title>
   <link rel="stylesheet" href="style.css">
 </head>
-<body>
 
+<body>
 
   <div class="keys">
     <div data-key="65" class="key">
@@ -58,7 +59,29 @@
   <audio data-key="76" src="sounds/tink.wav"></audio>
 
 <script>
+ 
+  // turn keys back to original state
+  // e.target = select current key pressed/ event occured 
+  const removeTransition = (e) => {
+    e.target.classList.remove('playing')
+  }
 
+  // func to play sound
+  const playSound = (e) => {
+    const audio = document.querySelector(`audio[data-key="${e.keyCode}"]`);
+    const key = document.querySelector(`.key[data-key="${e.keyCode}"]`);
+    audio.currentTime = 0;
+    key.classList.add('playing');
+    audio.play();
+  }
+
+  // Array.from converts from nodelist to array
+  const keys = Array.from(document.querySelectorAll('.key'));
+  keys.forEach(key => key.addEventListener('transitionend', removeTransition));
+
+  // event listener to run func playSound when keydown occurs
+  document.addEventListener('keydown', playSound);
+  
 </script>
 
 
